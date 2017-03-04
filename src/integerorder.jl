@@ -67,7 +67,7 @@ end
 Compute the characteristic value a_{2n}(q) corresponding to an even, π-periodic
 solution to the angular Mathieu equation.
 """
-function a_p(n::Union{Int,AbstractVector{Int}},q::Float64,N::Int=6+maximum(n)+ceil(Int,sqrt(q)))
+function a_p(n::Union{Int,AbstractVector{Int}},q::Float64,N::Int=8+maximum(n)+ceil(Int,sqrt(q)))
     C = mat_C1(q,N)
     a = eigvals(C)[n+1]
     return a
@@ -79,7 +79,7 @@ end
 Compute the characteristic value a_{2n+1}(q) corresponding to an even,
 π-antiperiodic (2π-periodic) solution to the angular Mathieu equation.
 """
-function a_a(n::Union{Int,AbstractVector{Int}},q::Float64,N::Int=6+maximum(n)+ceil(Int,sqrt(q)))
+function a_a(n::Union{Int,AbstractVector{Int}},q::Float64,N::Int=12+maximum(n)+ceil(Int,sqrt(q)))
     C = mat_C2(q,N)
     a = eigvals(C)[n+1]
     return a
