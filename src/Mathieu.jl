@@ -1,5 +1,5 @@
 module Mathieu
 
-# package code goes here
+include("integerorder.jl")
 
 end # module
