@@ -1,5 +1,6 @@
 module Mathieu
 
-include("integerorder.jl")
+include("integerorder_evals.jl")
+include("integerorder_funs.jl")
 
 end # module
