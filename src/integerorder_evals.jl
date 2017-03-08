@@ -86,6 +86,24 @@ function aa(n::Union{Int,AbstractVector{Int}},q,N::Int=13+maximum(n)+ceil(Int,sq
 end
 
 """
+    a(m,q,N)
+
+Compute the characteristic value a_m(q). m must be 2n or 2n+1, with n=0,1,2...
+"""
+function a(m::Union{Int,AbstractVector{Int}},q)
+    if isempty(filter(isodd,m))
+        a = ap(div(m,2),q)
+    elseif isempty(filter(iseven,m))
+        a = aa(div(m,2),q)
+    else
+        a = zeros(length(m))
+        a[iseven.(m)] = ap(div(filter(iseven,m),2),q)
+        a[isodd.(m)] = aa(div(filter(isodd,m),2),q)
+    end
+    return a
+end
+
+"""
     ba(n,q,N)
 
 Compute the characteristic value b_{2n+1}(q) corresponding to an odd,
@@ -107,4 +125,35 @@ function bp(n::Union{Int,AbstractVector{Int}},q,N::Int=7+maximum(n)+ceil(Int,sqr
     C = mat_C4(q,N)
     b = eigvals(C)[n+1]
     return b
+end
+
+"""
+    b(m,q,N)
+
+Compute the characteristic value b_m(q). m must be 2n+1 or 2n+2, with n=0,1,2...
+"""
+function b(m::Union{Int,AbstractVector{Int}},q)
+    if isempty(filter(isodd,m))
+        a = bp(div(m,2)-2,q)
+    elseif isempty(filter(iseven,m))
+        a = ba(div(m,2)-1,q)
+    else
+        a = zeros(length(m))
+        a[isodd.(m)] = ba(div(filter(isodd,m)-1,2),q)
+        a[iseven.(m)] = bp(div(filter(iseven,m)-2,2),q)
+    end
+    return a
+end
+
+function abp(m::Union{Int,AbstractVector{Int}},q)
+    if isempty(filter(isodd,m))
+        a = ap(div(m,2),q)
+    elseif isempty(filter(iseven,m))
+        a = bp(div(m,2),q)
+    else
+        a = zeros(length(m))
+        a[iseven.(m)] = ap(div(filter(iseven,m),2),q)
+        a[isodd.(m)] = bp(div(filter(isodd,m),2),q)
+    end
+    return a
 end
