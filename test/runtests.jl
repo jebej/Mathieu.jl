@@ -12,7 +12,7 @@ q_40to100  = 14:31
 q_100to200 = 32:62
 
 charval_testfiles = ["MathieuCharA_Periodic","MathieuCharA_Antiperiodic","MathieuCharB_Antiperiodic","MathieuCharB_Periodic"]
-charval_funs = [x->Mathieu.ap(x[2],x[1]),x->Mathieu.aa(x[2],x[1]),x->Mathieu.ba(x[2],x[1]),x->Mathieu.bp(x[2],x[1])]
+charval_funs = [q->Mathieu.ap(nn,q),q->Mathieu.aa(nn,q),q->Mathieu.ba(nn,q),q->Mathieu.bp(nn,q)]
 charval_max1  = [6,   21,   6,   7]
 charval_max2  = [53,  21,   37,  16]
 charval_max3  = [76,  783,  149, 446]
@@ -27,7 +27,7 @@ for i = 1:length(charval_testfiles)
     # Read Mathematica reference values
     arr_ref = parse.([BigFloat],readcsv(joinpath(dirname(@__FILE__),string(charval_testfiles[i],".csv")),String))
     # Calculate corresponding values
-    arr_jul = map(charval_funs[i],product(qq,nn))
+    arr_jul = mapreduce(charval_funs[i],hcat,qq).'
     # Compute difference in multiples of eps
     a = Float64.(abs.(arr_jul-arr_ref)./eps.(arr_jul))
 
