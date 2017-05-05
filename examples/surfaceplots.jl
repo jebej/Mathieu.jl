@@ -1,7 +1,7 @@
 using Mathieu,Plots
-
-z = linspace(0,2pi,100)
-q = linspace(0.0,10,100)
+plotlyjs()
+z = linspace(0,2π,101)
+q = linspace(0,10,101)
 
 # ce_0(z,q)
 surface(q,z,mapreduce(q->Mathieu.cep(0,q,z),hcat,q),zlim=(0,1.5))
