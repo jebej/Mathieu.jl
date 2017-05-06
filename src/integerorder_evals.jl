@@ -1,8 +1,7 @@
 """
     ap(n,q,N)
 
-Compute the characteristic value a_{2n}(q) corresponding to an even, π-periodic
-solution to the angular Mathieu equation.
+Compute the characteristic value a_{2n}(q) corresponding to an even, π-periodic solution to the angular Mathieu equation.
 """
 function ap(n::Order,q::BlasReal,N::Int=8+maximum(n)+ceil(Int,sqrt(abs(q))))
     C = mat_C1(q,N)
@@ -13,8 +12,7 @@ end
 """
     aa(n,q,N)
 
-Compute the characteristic value a_{2n+1}(q) corresponding to an even,
-π-antiperiodic (2π-periodic) solution to the angular Mathieu equation.
+Compute the characteristic value a_{2n+1}(q) corresponding to an even, π-antiperiodic (2π-periodic) solution to the angular Mathieu equation.
 """
 function aa(n::Order,q::BlasReal,N::Int=13+maximum(n)+ceil(Int,sqrt(abs(q))))
     C = mat_C2(q,N)
@@ -43,8 +41,7 @@ end
 """
     ba(n,q,N)
 
-Compute the characteristic value b_{2n+1}(q) corresponding to an odd,
-π-antiperiodic (2π-periodic) solution to the angular Mathieu equation.
+Compute the characteristic value b_{2n+1}(q) corresponding to an odd, π-antiperiodic (2π-periodic) solution to the angular Mathieu equation.
 """
 function ba(n::Order,q::BlasReal,N::Int=6+maximum(n)+ceil(Int,sqrt(abs(q))))
     C = mat_C3(q,N)
@@ -55,8 +52,7 @@ end
 """
     bp(n,q,N)
 
-Compute the characteristic value b_{2n+2}(q) corresponding to an odd, π-periodic
-solution to the angular Mathieu equation.
+Compute the characteristic value b_{2n+2}(q) corresponding to an odd, π-periodic solution to the angular Mathieu equation.
 """
 function bp(n::Order,q::BlasReal,N::Int=7+maximum(n)+ceil(Int,sqrt(abs(q))))
     C = mat_C4(q,N)
@@ -85,9 +81,7 @@ end
 """
     char_per(m,q,N)
 
-Compute the characteristic value a_{m}(q) for even m, or b_{2m}(q) for odd m.
-These eigenvalues characteristic values to even and odd, respectively,
-π-periodic solutions to the angular Mathieu equation.
+Compute the characteristic value a_{m}(q) for even m, or b_{2m}(q) for odd m. These characteristic values correspond respectively to even and odd π-periodic solutions to the angular Mathieu equation.
 """
 function char_per(n::Order,q::BlasReal,N::Int=9+maximum(n)+ceil(Int,sqrt(abs(q))))
     M = mat_per(q,N)
@@ -98,9 +92,7 @@ end
 """
     char_aper(m,q,N)
 
-Compute the characteristic value a_{m+1}(q) for even m, or b_{2m+1}(q) for odd
-m. These characteristic values correspond to even and odd, respectively,
-π-antiperiodic solutions to the angular Mathieu equation.
+Compute the characteristic value a_{m+1}(q) for even m, or b_{2m+1}(q) for odd m. These characteristic values correspond respectively to even and odd π-antiperiodic solutions to the angular Mathieu equation.
 """
 function char_aper(n::Order,q::BlasReal,N::Int=8+maximum(n)+ceil(Int,sqrt(abs(q))))
     M = mat_aper(q,N)
