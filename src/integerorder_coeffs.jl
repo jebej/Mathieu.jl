@@ -41,14 +41,38 @@ function sep_coeffs(n::Order,q,N::Int)
 end
 
 function per_coeffs(m::AbstractVector{Int},q,N::Int)
-    if isempty(filter(isodd,m))
-        P = cep_coeffs(div(m,2),q,N)
-    elseif isempty(filter(iseven,m))
-        P = sep_coeffs(div(m,2),q,N)
-    else
-        P = zeros(N,length(m))
-        P[:,iseven.(m)] = cep_coeffs(div(filter(iseven,m),2),q,N)
-        P[:,isodd.(m)] = sep_coeffs(div(filter(isodd,m),2),q,N)
-    end
+    oddorders = filter(isodd,m)
+    isempty(oddorders)  && return cep_coeffs(div.(m,2),q,N)
+    evenorders = filter(iseven,m)
+    isempty(evenorders) && return sep_coeffs(div.(m,2),q,N)
+    P = zeros(N,length(m))
+    P[:,iseven.(m)] = cep_coeffs(div.(evenorders,2),q,N)
+    P[:,isodd.(m)] = sep_coeffs(div.(oddorders,2),q,N)
     return P
 end
+
+
+# Not working
+#function per_coeffs2(m::AbstractVector{Int},q,N::Int)
+#    #if q==0.0; return q0_coeffs1(m,q,N); end
+#    u = sort!(unique(m))
+#    MP = mat_per(q,N) # Generate matrix
+#    au = eigvals(MP)[u+1] # Calculate characteristic values
+#    Au = eigvecs(MP,au) # Calculate eigenvectors
+#    Au./= sqrt(2) # Renormalize eigenvectors
+#    Au .*= signp.(sum(Au,1))
+#    #Au[div(N,2)+2:end,:] .*= sign.(sum(Au[div(N,2)+2:end,:],1))*(-1).^(u+1)
+#    Au[div(N,2)+2:end,:] .+= Au[div(N,2):-1:1,:].*((-1).^(u)).'
+#    Au = Au[div(N,2)+1:end,:]
+#    return Au[:,indexin(m,u)]
+#end
+#
+#function aper_coeffs2(m::AbstractVector{Int},q,N::Int)
+#    #if q==0.0; return q0_coeffs2(m,q,N); end
+#    u = sort!(unique(m))
+#    MA = mat_aper(q,N) # Generate matrix
+#    au = eigvals(MA)[u+1] # Calculate characteristic values
+#    Au = eigvecs(MA,au) # Calculate eigenvectors
+#    Au .*= signp.(sum(Au,1))
+#    return Au[:,indexin(m,u)]
+#end

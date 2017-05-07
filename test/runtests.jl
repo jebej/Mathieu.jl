@@ -30,11 +30,21 @@ for (fjl,file) in cases
     println(@sprintf("  mean error: %d eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
 end
 
+println(string("Comparing ","Int_Per_PerPrime"," with Mathematica:"))
+# Read Mathematica reference values
+arr_ref = readcsv(joinpath(refdir,string("Int_Per_PerPrime",".csv")),Float64)
+# Calculate corresponding values with Mathieu.jl
+arr_jul = Mathieu.int_per_perprime(n1,n1,223/100,[0.5,3])
+# Make sure the values are approximately equal
+@test arr_jul ≈ arr_ref[1:25,1:25]
+a = abs.(arr_jul-arr_ref[1:25,1:25])./eps.(arr_jul)
+println(@sprintf("  mean error: %d eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
+
 ## Test q change of sign
-n1 = [0:20,7:21,10:35,12:46,50:100,100:150,150:200]
+n2 = [0:20,7:21,10:35,12:46,50:100,100:150,150:200]
 q2 = linspace(0,100,202) #0:2φ:30
 z2 = linspace(0,4φ,10)
-for nn in n1
+for nn in n2
     println("Testing change of sign for n = $nn:")
     N2 = maximum(nn)+12 # Make N different to hit different eigendecompositions
     print("  ap")
