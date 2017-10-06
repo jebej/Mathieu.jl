@@ -1,4 +1,4 @@
-function int_per_perprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(q))))
+function int_p_pprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(q))))
     P = per_coeffs([mm;nn],q,N)
     map(product(1:length(mm),1:length(nn))) do x
         m = mm[x[1]]
@@ -43,12 +43,12 @@ function int_per_perprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(
     end
 end
 
-
-function int_per_perprime_pi(mm,q,N::Int=8+maximum(mm)+ceil(Int,sqrt(abs(q))))
-    P = per_coeffs(mm,q,N)
-    M = zeros(length(mm),length(mm))
-    for i in find(iseven,mm), j in find(isodd,mm)
-        el = 0.0
+# optimized version of the above when z = [0,π]
+function intpi_p_pprime(nmax::Int,q,N::Int=8+nmax+ceil(Int,sqrt(abs(q))))
+    P = per_coeffs(0:nmax-1,q,N)
+    M = zeros(eltype(P),nmax,nmax)
+    @inbounds for j = 2:2:nmax, i = 1:2:nmax
+        el = zero(eltype(P))
         for k=1:N-1
             el += P[k+1,i]*P[k,j]*k*π
         end

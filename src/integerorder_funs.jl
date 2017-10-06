@@ -33,3 +33,14 @@ function sep(n::Order,q,z,N::Int=7+maximum(n)+ceil(Int,sqrt(abs(q))))
     end
     return se
 end
+
+function fun_per(m::Order,q,z,N::Int=8+maximum(m)+ceil(Int,sqrt(abs(q))))
+    oddorders = filter(isodd,m)
+    isempty(oddorders)  && return cep(div.(m,2),q,z,N)
+    evenorders = filter(iseven,m)
+    isempty(evenorders) && return sep(div.(m,2),q,z,N)
+    a = zeros(length(z),length(m))
+    a[:,iseven.(m)] = cep(div.(evenorders,2),q,z,N)
+    a[:,isodd.(m)]  = sep(div.(oddorders,2),q,z,N)
+    return a
+end
