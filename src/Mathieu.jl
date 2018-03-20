@@ -1,5 +1,5 @@
 module Mathieu
-import Base: product, LinAlg.BlasReal
+using Base: product, Iterators.filter, LinAlg.BlasReal
 using Compat
 
 @compat const Order{T<:Integer}  = Union{T,AbstractVector{T}}

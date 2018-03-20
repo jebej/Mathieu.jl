@@ -1,4 +1,5 @@
 using Base.Test, Mathieu
+const refdir = joinpath(@__DIR__,"ref")
 
 ## Test vs Mathematica
 n1 = 0:24
@@ -17,7 +18,6 @@ cases = ((q->Mathieu.ap(n1,q),           "MathieuCharA_Periodic"),
          (q->Mathieu.sea_prime(n1,q,z1), "MathieuSPrime_Antiperiodic"),
          (q->Mathieu.sep_prime(n1,q,z1), "MathieuSPrime_Periodic"),
          )
-refdir = joinpath(dirname(@__FILE__),"ref")
 for (fjl,file) in cases
     println(string("Comparing ",file," with Mathematica:"))
     # Read Mathematica reference values
@@ -27,7 +27,7 @@ for (fjl,file) in cases
     # Make sure the values are approximately equal
     @test arr_jul ≈ arr_ref
     a = abs.(arr_jul-arr_ref)./eps.(arr_jul)
-    println(@sprintf("  mean error: %d eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
+    println(@sprintf("  mean error: %.2f eps, median: %.2f eps, max: %d eps.",mean(a),median(a),maximum(a)))
 end
 
 println(string("Comparing ","Int_Per_PerPrime"," with Mathematica:"))

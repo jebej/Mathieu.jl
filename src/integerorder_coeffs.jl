@@ -1,17 +1,16 @@
 function cep_coeffs(n::Order,q,N::Int)
-    if q==0.0; return q0_coeffs1(n,q,N); end
+    if iszero(q); return q0_coeffs1(n,q,N); end
     u = sort!(unique(n))
     C1 = mat_C1(q,N) # Generate matrix
     au = eigvals(C1)[u+1] # Calculate characteristic values
     Au = eigvecs(C1,au) # Calculate eigenvectors
-    Au[2:N,:] .*= sqrt(2) # Renormalize eigenvectors
-    Au ./= sqrt.(sum(abs2,Au,1).+Au[1:1,:].^2)
+    Au[1:1,:] ./= √2 # Renormalize eigenvectors
     Au .*= signp.(sum(Au,1))
     return Au[:,indexin(n,u)]
 end
 
 function cea_coeffs(n::Order,q,N::Int)
-    if q==0.0; return q0_coeffs2(n,q,N); end
+    if iszero(q); return q0_coeffs2(n,q,N); end
     u = sort!(unique(n))
     C2 = mat_C2(q,N) # Generate matrix
     au = eigvals(C2)[u+1] # Calculate characteristic values
@@ -21,7 +20,7 @@ function cea_coeffs(n::Order,q,N::Int)
 end
 
 function sea_coeffs(n::Order,q,N::Int)
-    if q==0.0; return q0_coeffs2(n,q,N); end
+    if iszero(q); return q0_coeffs2(n,q,N); end
     u = sort!(unique(n))
     C3 = mat_C3(q,N) # Generate matrix
     bu = eigvals(C3)[u+1] # Calculate characteristic values
@@ -31,7 +30,7 @@ function sea_coeffs(n::Order,q,N::Int)
 end
 
 function sep_coeffs(n::Order,q,N::Int)
-    if q==0.0; return q0_coeffs2(n,q,N); end
+    if iszero(q); return q0_coeffs2(n,q,N); end
     u = sort!(unique(n))
     C4 = mat_C4(q,N) # Generate matrix
     bu = eigvals(C4)[u+1] # Calculate characteristic values
@@ -41,20 +40,20 @@ function sep_coeffs(n::Order,q,N::Int)
 end
 
 function per_coeffs(m::AbstractVector{Int},q,N::Int)
-    oddorders = filter(isodd,m)
-    isempty(oddorders)  && return cep_coeffs(div.(m,2),q,N)
-    evenorders = filter(iseven,m)
-    isempty(evenorders) && return sep_coeffs(div.(m,2),q,N)
+    oddind = find(isodd,m)
+    isempty(oddind)  && return cep_coeffs(div.(m,2),q,N)
+    evenind = find(iseven,m)
+    isempty(evenind) && return sep_coeffs(div.(m,2),q,N)
     P = zeros(N,length(m))
-    P[:,iseven.(m)] = cep_coeffs(div.(evenorders,2),q,N)
-    P[:,isodd.(m)] = sep_coeffs(div.(oddorders,2),q,N)
+    P[:,evenind] = cep_coeffs(div.(m[evenind],2),q,N)
+    P[:,oddind] = sep_coeffs(div.(m[oddind],2),q,N)
     return P
 end
 
 
 # Not working
 #function per_coeffs2(m::AbstractVector{Int},q,N::Int)
-#    #if q==0.0; return q0_coeffs1(m,q,N); end
+#    #if iszero(q); return q0_coeffs1(m,q,N); end
 #    u = sort!(unique(m))
 #    MP = mat_per(q,N) # Generate matrix
 #    au = eigvals(MP)[u+1] # Calculate characteristic values
@@ -68,7 +67,7 @@ end
 #end
 #
 #function aper_coeffs2(m::AbstractVector{Int},q,N::Int)
-#    #if q==0.0; return q0_coeffs2(m,q,N); end
+#    #if iszero(q); return q0_coeffs2(m,q,N); end
 #    u = sort!(unique(m))
 #    MA = mat_aper(q,N) # Generate matrix
 #    au = eigvals(MA)[u+1] # Calculate characteristic values

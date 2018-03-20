@@ -7,7 +7,7 @@ angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_C1{T<:BlasReal}(q::T,N::Int)
+function mat_C1(q::T,N::Integer) where T<:Number
     dd = [T(2k)^2 for k = 0:N-1]
     du = fill(q,N-1)
     du[1] *= sqrt(2)
@@ -23,7 +23,7 @@ solutions to the angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_C2{T<:BlasReal}(q::T,N::Int)
+function mat_C2(q::T,N::Integer) where T<:Number
     dd = [T(2k+1)^2 for k = 0:N-1]
     dd[1] += q
     du = fill(q,N-1)
@@ -39,7 +39,7 @@ solutions to the angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_C3{T<:BlasReal}(q::T,N::Int)
+function mat_C3(q::T,N::Integer) where T<:Number
     dd = [T(2k+1)^2 for k = 0:N-1]
     dd[1] -= q
     du = fill(q,N-1)
@@ -55,7 +55,7 @@ angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_C4{T<:BlasReal}(q::T,N::Int)
+function mat_C4(q::T,N::Integer) where T<:Number
     dd = [T(2k+2)^2 for k = 0:N-1]
     du = fill(q,N-1)
     return SymTridiagonal(dd,du)
@@ -70,7 +70,7 @@ the angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_per{T<:BlasReal}(q::T,N::Int)
+function mat_per(q::T,N::Integer) where T<:Number
     dd = [T(2k)^2 for k = -div(N,2):div(N-1,2)]
     du = fill(q,N-1)
     return SymTridiagonal(dd,du)
@@ -85,7 +85,7 @@ to the angular Mathieu equation.
 * `q`: real or complex parameter of Mathieu’s equation
 * `N`: truncated matrix dimension (matrix is N×N)
 """
-function mat_aper{T<:BlasReal}(q::T,N::Int)
+function mat_aper(q::T,N::Integer) where T<:Number
     dd = [T(2k+1)^2 for k = -div(N,2):div(N-1,2)]
     du = fill(q,N-1)
     return SymTridiagonal(dd,du)
@@ -93,7 +93,7 @@ end
 
 
 
-#function mat_even{T<:BlasReal}(q::T,N::Int)
+#function mat_even(q::T,N::Integer) where T<:Number
 #    dd = [T(k)^2 for k = 0:N-1]
 #    dd[2] += q/1.3
 #    du = fill(q,N-1)
