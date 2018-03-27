@@ -39,7 +39,7 @@ function int_p_pprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(q)))
                 end
             end
         end
-        return res[2]-res[1]
+        return (res[2]-res[1]) #(-1)^(1+m÷2+n÷2)*
     end
 end
 
@@ -52,6 +52,7 @@ function intpi_p_pprime(nmax::Int,q,N::Int=8+nmax+ceil(Int,sqrt(abs(q))))
         for k=1:N-1
             el += P[k+1,i]*P[k,j]*k*π
         end
+        el = (-1)^(i÷2+j÷2)*el # hmmmm
         M[i,j] = el; M[j,i] = -el
     end
     return M

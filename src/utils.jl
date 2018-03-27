@@ -3,18 +3,10 @@ signp(x::Real) = x<0 ? -one(x) : one(x)
 checkvec(n::Number) = n:n
 checkvec(n::AbstractVector) = n
 
-function q0_coeffs1(n,q,N)
-    A = zeros(eltype(q),N,length(n))
-    for (i,n) in enumerate(n)
-        A[n+1,i] = n==0 ? 1/sqrt(2) : 1
-    end
-    return A
-end
+blasfloat(x::Int32) = Float32(x)
+blasfloat(x::Int16) = Float32(x)
+blasfloat(x::Number) = Float64(x)
 
-function q0_coeffs2(n,q,N)
-    A = zeros(eltype(q),N,length(n))
-    for (i,n) in enumerate(n)
-        A[n+1,i] = 1
-    end
-    return A
-end
+matsize1(n,q) = 2 + maximum(n) + ceil(Int,sqrt(abs(q)))
+matsize2(m,q) = 2 + maximum(m)÷2 + ceil(Int,sqrt(abs(q)))
+matsize3(n,q) = 2 + maximum(n) + ceil(Int,2*sqrt(abs(q)))

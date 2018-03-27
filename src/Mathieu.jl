@@ -1,8 +1,7 @@
 module Mathieu
 using Base: product, Iterators.filter, LinAlg.BlasReal
-using Compat
 
-@compat const Order{T<:Integer}  = Union{T,AbstractVector{T}}
+const Order{T<:Integer}  = Union{T,AbstractVector{T}}
 
 include("integerorder_mat.jl")
 include("integerorder_evals.jl")

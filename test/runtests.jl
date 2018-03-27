@@ -27,7 +27,7 @@ for (fjl,file) in cases
     # Make sure the values are approximately equal
     @test arr_jul ≈ arr_ref
     a = abs.(arr_jul-arr_ref)./eps.(arr_jul)
-    println(@sprintf("  mean error: %.2f eps, median: %.2f eps, max: %d eps.",mean(a),median(a),maximum(a)))
+    println(@sprintf("  mean error: %.2f eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
 end
 
 println(string("Comparing ","Int_Per_PerPrime"," with Mathematica:"))
@@ -38,7 +38,7 @@ arr_jul = Mathieu.int_p_pprime(n1,n1,223/100,[0.5,3])
 # Make sure the values are approximately equal
 @test arr_jul ≈ arr_ref[1:25,1:25]
 a = abs.(arr_jul-arr_ref[1:25,1:25])./eps.(arr_jul)
-println(@sprintf("  mean error: %d eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
+println(@sprintf("  mean error: %.2f eps, median: %d eps, max: %d eps.",mean(a),median(a),maximum(a)))
 
 # Test q change of sign
 n2 = [0:20,7:21,10:35,12:46,50:100,100:150,150:200]
