@@ -1,4 +1,4 @@
-function int_p_pprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(q))))
+function int_p_pprime(mm,nn,q,z,N::Integer=matsize4([mm;nn],q))
     P = per_coeffs([mm;nn],q,N)
     map(product(1:length(mm),1:length(nn))) do x
         m = mm[x[1]]
@@ -44,15 +44,16 @@ function int_p_pprime(mm,nn,q,z,N::Int=8+maximum([mm;nn])+ceil(Int,sqrt(abs(q)))
 end
 
 # optimized version of the above when z = [0,π]
-function intpi_p_pprime(nmax::Int,q,N::Int=8+nmax+ceil(Int,sqrt(abs(q))))
-    P = per_coeffs(0:nmax-1,q,N)
-    M = zeros(eltype(P),nmax,nmax)
+function intpi_p_pprime(nmax::Integer,q,N::Integer=matsize4(nmax,q))
+    CP = cep_coeffs(0:nmax÷2,q,N)
+    SP = sep_coeffs(0:(nmax-1)÷2,q,N)
+    M = zeros(eltype(CP),nmax,nmax)
     @inbounds for j = 2:2:nmax, i = 1:2:nmax
-        el = zero(eltype(P))
+        el = zero(eltype(CP))
         for k=1:N-1
-            el += P[k+1,i]*P[k,j]*k*π
+            el += CP[k+1,i÷2+1]*SP[k,j÷2]*k*π
         end
-        el = (-1)^(i÷2+j÷2)*el # hmmmm
+        #el = (-1)^(i÷2+j÷2)*el # hmmmm
         M[i,j] = el; M[j,i] = -el
     end
     return M
