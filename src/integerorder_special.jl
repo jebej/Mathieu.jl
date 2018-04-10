@@ -39,22 +39,6 @@ function int_p_pprime(mm,nn,q,z,N::Integer=matsize4([mm;nn],q))
                 end
             end
         end
-        return (res[2]-res[1]) #(-1)^(1+m÷2+n÷2)*
+        return (res[2]-res[1])
     end
-end
-
-# optimized version of the above when z = [0,π]
-function intpi_p_pprime(nmax::Integer,q,N::Integer=matsize4(nmax,q))
-    CP = cep_coeffs(0:nmax÷2,q,N)
-    SP = sep_coeffs(0:(nmax-1)÷2,q,N)
-    M = zeros(eltype(CP),nmax,nmax)
-    @inbounds for j = 2:2:nmax, i = 1:2:nmax
-        el = zero(eltype(CP))
-        for k=1:N-1
-            el += CP[k+1,i÷2+1]*SP[k,j÷2]*k*π
-        end
-        #el = (-1)^(i÷2+j÷2)*el # hmmmm
-        M[i,j] = el; M[j,i] = -el
-    end
-    return M
 end

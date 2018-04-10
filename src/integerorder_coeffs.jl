@@ -2,7 +2,7 @@ function cep_coeffs(n::Order,q::Number,N::Integer)
     iszero(q) && return q0_coeffs1(n,q,N)
     C1 = mat_C1(q,N) # Generate matrix
     Au = coeffs(C1,n)
-    Au[1,:] ./= √2 # Renormalize eigenvectors
+    Au[1,:] .*= √0.5 # Renormalize eigenvectors
     return Au
 end
 
