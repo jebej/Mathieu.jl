@@ -7,7 +7,7 @@ Pass a vector, e.g. `n=0:4`, to obtain multiple characteristic values efficientl
 """
 function ap(n::Order,q::Number,N::Integer=matsize1(n,q))
     C = mat_C1(q,N)
-    a = eigvals(C)[n+1] # stev aka STERF
+    a = eigvals(C)[n.+1] # stev aka STERF
     #a = LAPACK.stebz!('I','E',0.0,0.0,1,maximum(n)+1,2*eps(q),C.dv,C.ev)[1][n+1]
     return a
 end
@@ -21,7 +21,7 @@ Pass a vector, e.g. `n=0:4`, to obtain multiple characteristic values efficientl
 """
 function aa(n::Order,q::Number,N::Integer=matsize1(n,q))
     C = mat_C2(q,N)
-    a = eigvals(C)[n+1]
+    a = eigvals(C)[n.+1]
     return a
 end
 
@@ -52,7 +52,7 @@ Pass a vector, e.g. `n=0:4`, to obtain multiple characteristic values efficientl
 """
 function ba(n::Order,q::Number,N::Integer=matsize1(n,q))
     C = mat_C3(q,N)
-    b = eigvals(C)[n+1]
+    b = eigvals(C)[n.+1]
     return b
 end
 
@@ -65,7 +65,7 @@ Pass a vector, e.g. `n=0:4`, to obtain multiple characteristic values efficientl
 """
 function bp(n::Order,q::Number,N::Integer=matsize1(n,q))
     C = mat_C4(q,N)
-    b = eigvals(C)[n+1]
+    b = eigvals(C)[n.+1]
     return b
 end
 

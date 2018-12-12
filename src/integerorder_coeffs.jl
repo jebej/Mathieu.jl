@@ -26,10 +26,10 @@ end
 
 function coeffs(C::AbstractMatrix,n::Order)
     u = sort!(unique(n))
-    au = eigvals(C)[u+1] # Calculate characteristic values
+    au = eigvals(C)[u.+1] # Calculate characteristic values
     #au = LAPACK.stebz!('A','E',0.0,0.0,0,0,2*eps(C.ev[1]),C.dv,C.ev)[1][u+1]
     Au = eigvecs(C,au) # Calculate eigenvectors
-    Au .*= signp.(sum(Au,1)) # Make sure we have the correct sign
+    Au .*= signp.(sum(Au,dims=1)) # Make sure we have the correct sign
     return Au[:,indexin(checkvec(n),u)]
 end
 
@@ -46,13 +46,13 @@ function q0_coeffs2(n::Order,q::Number,N::Integer)
 end
 
 function per_coeffs(m::Order,q::Number,N::Integer)
-    oddind = find(isodd,m)
+    oddind = findall(isodd,m)
     isempty(oddind)  && return cep_coeffs(div.(m,2),q,N)
-    evenind = find(iseven,m)
+    evenind = findall(iseven,m)
     isempty(evenind) && return sep_coeffs(div.(m,2),q,N)
     P1 = cep_coeffs(div.(m[evenind],2),q,N)
     P2 = sep_coeffs(div.(m[oddind],2),q,N)
-    P = Matrix{eltype(P1)}(N,length(m))
+    P = Matrix{eltype(P1)}(undef,N,length(m))
     P[:,evenind] = P1
     P[:,oddind] = P2
     return P
