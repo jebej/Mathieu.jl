@@ -1,10 +1,11 @@
-using Base.Test, Mathieu
+using Test, Mathieu, Printf, DelimitedFiles
 const refdir = joinpath(@__DIR__,"ref")
+const φ = MathConstants.φ
 
 ## Test vs Mathematica
 n1 = 0:24
 q1 = 0:2φ:80
-z1 = linspace(0,4φ,10)
+z1 = LinRange(0,4φ,10)
 cases = ((q->Mathieu.ap(n1,q),           "MathieuCharA_Periodic"),
          (q->Mathieu.aa(n1,q),           "MathieuCharA_Antiperiodic"),
          (q->Mathieu.ba(n1,q),           "MathieuCharB_Antiperiodic"),
@@ -21,7 +22,7 @@ cases = ((q->Mathieu.ap(n1,q),           "MathieuCharA_Periodic"),
 for (fjl,file) in cases
     println(string("Comparing ",file," with Mathematica:"))
     # Read Mathematica reference values
-    arr_ref = readcsv(joinpath(refdir,string(file,".csv")),Float64)
+    arr_ref = readdlm(joinpath(refdir,"$file.csv"),',',Float64)
     # Calculate corresponding values with Mathieu.jl
     arr_jul = mapreduce(fjl,hcat,q1)
     # Make sure the values are approximately equal
@@ -32,7 +33,7 @@ end
 
 println(string("Comparing ","Int_Per_PerPrime"," with Mathematica:"))
 # Read Mathematica reference values
-arr_ref = readcsv(joinpath(refdir,string("Int_Per_PerPrime",".csv")),Float64)
+arr_ref = readdlm(joinpath(refdir,"Int_Per_PerPrime.csv"),Float64)
 # Calculate corresponding values with Mathieu.jl
 arr_jul = Mathieu.int_p_pprime(n1,n1,223/100,[0.5,3])
 # Make sure the values are approximately equal
