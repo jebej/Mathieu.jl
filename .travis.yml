@@ -4,6 +4,7 @@ os:
   - linux
   - osx
 julia:
+  - 0.6
   - 1.0
   - nightly
 notifications:
@@ -14,6 +15,6 @@ notifications:
 #  - julia -e 'Pkg.clone(pwd()); Pkg.build("Mathieu"); Pkg.test("Mathieu"; coverage=true)'
 after_success:
   # push coverage results to Coveralls and Codecov
-  - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage'
+  - julia -e 'using Compat.Pkg; Pkg.add("Coverage"); using Coverage'
   - julia -e 'using Coverage; Coveralls.submit(Coveralls.process_folder())''
   - julia -e 'using Coverage; Codecov.submit(Codecov.process_folder())'
