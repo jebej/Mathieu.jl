@@ -1,10 +1,13 @@
-using Base.Test, Mathieu
+using Compat, Mathieu
+using Compat.Test, Compat.Printf, Compat.DelimitedFiles
+using Compat.Statistics: mean, median
+VERSION>v"0.7.0-" && import Base.MathConstants.φ
 const refdir = joinpath(@__DIR__,"ref")
 
 ## Test vs Mathematica
 n1 = 0:24
 q1 = 0:2φ:80
-z1 = linspace(0,4φ,10)
+z1 = LinRange(0,4φ,10)
 cases = ((q->Mathieu.ap(n1,q),           "MathieuCharA_Periodic"),
          (q->Mathieu.aa(n1,q),           "MathieuCharA_Antiperiodic"),
          (q->Mathieu.ba(n1,q),           "MathieuCharB_Antiperiodic"),
@@ -21,7 +24,7 @@ cases = ((q->Mathieu.ap(n1,q),           "MathieuCharA_Periodic"),
 for (fjl,file) in cases
     println(string("Comparing ",file," with Mathematica:"))
     # Read Mathematica reference values
-    arr_ref = readcsv(joinpath(refdir,string(file,".csv")),Float64)
+    arr_ref = readdlm(joinpath(refdir,"$file.csv"),',',Float64)
     # Calculate corresponding values with Mathieu.jl
     arr_jul = mapreduce(fjl,hcat,q1)
     # Make sure the values are approximately equal
@@ -32,7 +35,7 @@ end
 
 println(string("Comparing ","Int_Per_PerPrime"," with Mathematica:"))
 # Read Mathematica reference values
-arr_ref = readcsv(joinpath(refdir,string("Int_Per_PerPrime",".csv")),Float64)
+arr_ref = readdlm(joinpath(refdir,"Int_Per_PerPrime.csv"),',',Float64)
 # Calculate corresponding values with Mathieu.jl
 arr_jul = Mathieu.int_p_pprime(n1,n1,223/100,[0.5,3])
 # Make sure the values are approximately equal
@@ -42,8 +45,8 @@ println(@sprintf("  mean error: %.2f eps, median: %d eps, max: %d eps.",mean(a),
 
 # Test q change of sign
 n2 = [0:20,7:21,10:35,12:46,50:100,100:150,150:200]
-q2 = linspace(0,100,202) #0:2φ:30
-z2 = linspace(0,4φ,10)
+q2 = LinRange(0,100,202) #0:2φ:30
+z2 = LinRange(0,4φ,10)
 for nn in n2
     println("Testing change of sign for n = $nn:")
     N2 = maximum(nn)+12 # Make N different to hit different eigendecompositions
@@ -61,18 +64,18 @@ for nn in n2
     @test A1 ≈ A2
     print(", cep")
     A1 = mapreduce(q->Mathieu.cep(nn,q,z2),vcat,-q2)
-    A2 = mapreduce(q->Mathieu.cep(nn,q,π/2-z2,N2).*(-1).^nn.',vcat,q2)
+    A2 = mapreduce(q->Mathieu.cep(nn,q,π/2 .- z2,N2).*(-1).^nn',vcat,q2)
     @test A1 ≈ A2
     print(", cea")
     A1 = mapreduce(q->Mathieu.cea(nn,q,z2),vcat,-q2)
-    A2 = mapreduce(q->Mathieu.sea(nn,q,π/2-z2,N2).*(-1).^nn.',vcat,q2)
+    A2 = mapreduce(q->Mathieu.sea(nn,q,π/2 .- z2,N2).*(-1).^nn',vcat,q2)
     @test A1 ≈ A2
     print(", sea")
     A1 = mapreduce(q->Mathieu.sea(nn,q,z2),vcat,-q2)
-    A2 = mapreduce(q->Mathieu.cea(nn,q,π/2-z2,N2).*(-1).^nn.',vcat,q2)
+    A2 = mapreduce(q->Mathieu.cea(nn,q,π/2 .- z2,N2).*(-1).^nn',vcat,q2)
     @test A1 ≈ A2
     println(", sep.")
     A1 = mapreduce(q->Mathieu.sep(nn,q,z2),vcat,-q2)
-    A2 = mapreduce(q->Mathieu.sep(nn,q,π/2-z2,N2).*(-1).^nn.',vcat,q2)
+    A2 = mapreduce(q->Mathieu.sep(nn,q,π/2 .- z2,N2).*(-1).^nn',vcat,q2)
     @test A1 ≈ A2
 end
