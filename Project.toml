@@ -1,0 +1,17 @@
+name = "Mathieu"
+uuid = "3d1711f0-1c8d-11ea-1397-316da86a387d"
+keywords = ["mathieu"]
+license = "MIT"
+desc = "Compute integer-order Mathieu functions and characteristic values."
+authors = ["Jeremy <jeremy.bejanin@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[extra]
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
