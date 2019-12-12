@@ -9,33 +9,33 @@ function int_p_pprime(mm,nn,q,z,N::Integer=matsize4([mm;nn],q))
         if iseven(m)&&iseven(n)
             for k=0:N-1, l=0:N-1
                 if k==l
-                    res .+= Pm[k+1].*Pn[l+1].*cos.(4k.*z)./4
+                    @. res += Pm[k+1]*Pn[l+1]*cos(4k*z)/4
                 else
-                    res .+= Pm[k+1].*Pn[l+1].*0.5l.*( cos.(2(k+l).*z)./(k+l) .- cos.(2(k-l).*z)./(k-l) )
+                    @. res += Pm[k+1]*Pn[l+1]*0.5l*( cos(2(k+l)*z)/(k+l) - cos(2(k-l)*z)/(k-l) )
                 end
             end
         elseif iseven(m)&&isodd(n)
             for k=0:N-1, l=0:N-1
                 if k==l+1
-                    res .+= Pm[k+1].*Pn[l+1].*( k.*z .+ sin.(4k.*z)./4 )
+                    @. res += Pm[k+1]*Pn[l+1]*( k*z + sin(4k*z)/4 )
                 else
-                    res .+= Pm[k+1].*Pn[l+1].*0.5(l+1).*( sin.(2(k-l-1).*z)./(k-l-1) .+ sin.(2(k+l+1).*z)./(k+l+1) )
+                    @. res += Pm[k+1]*Pn[l+1]*0.5(l+1)*( sin(2(k-l-1)*z)/(k-l-1) + sin(2(k+l+1)*z)/(k+l+1) )
                 end
             end
         elseif isodd(m)&&iseven(n)
             for k=0:N-1, l=0:N-1
                 if k+1==l
-                    res .+= Pm[k+1].*Pn[l+1].*( sin.(4(k+1).*z)./4 .- (k+1).*z )
+                    @. res += Pm[k+1]*Pn[l+1]*( sin(4(k+1)*z)/4 - (k+1)*z )
                 else
-                    res .+= Pm[k+1].*Pn[l+1].*0.5l.*( sin.(2(k+l+1).*z)./(k+l+1) .- sin.(2(k-l+1).*z)./(k-l+1) )
+                    @. res += Pm[k+1]*Pn[l+1]*0.5l*( sin(2(k+l+1)*z)/(k+l+1) - sin(2(k-l+1)*z)/(k-l+1) )
                 end
             end
         else
             for k=0:N-1, l=0:N-1
                 if k==l
-                    res .-= Pm[k+1].*Pn[l+1].*cos.(4(k+1).*z)./4
+                    @. res -= Pm[k+1]*Pn[l+1]*cos(4(k+1)*z)/4
                 else
-                    res .-= Pm[k+1].*Pn[l+1].*0.5(l+1).*( cos.(2(k-l).*z)./(k-l) .+ cos.(2(k+l+2).*z)./(k+l+2) )
+                    @. res -= Pm[k+1]*Pn[l+1]*0.5(l+1)*( cos(2(k-l)*z)/(k-l) + cos(2(k+l+2)*z)/(k+l+2) )
                 end
             end
         end
