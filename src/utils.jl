@@ -13,5 +13,5 @@ matsize3(n,q) = 2 + maximum(n) + ceil(Int,2*sqrt(abs(q)))
 matsize4(m,q) = 2 + maximum(m)÷2 + ceil(Int,2*sqrt(abs(q)))
 
 if VERSION > v"0.7.0-"
-    Base.sum(A,dim::Integer) = Base._sum(A,dim)
+    Base.sum(A::AbstractArray,dim::Integer) = Base._sum(A,dim)
 end
