@@ -29,7 +29,7 @@ function coeffs(C::AbstractMatrix,n::Order)
     au = eigvals(C)[u.+1] # Calculate characteristic values
     #au = LAPACK.stebz!('A','E',0.0,0.0,0,0,2*eps(C.ev[1]),C.dv,C.ev)[1][u+1]
     Au = eigvecs(C,au) # Calculate eigenvectors
-    Au .*= signp.(sum(Au,1)) # Make sure we have the correct sign
+    Au .*= signp.(sum(Au,dims=1)) # Make sure we have the correct sign
     return Au[:,indexin(checkvec(n),u)]
 end
 

@@ -1,7 +1,7 @@
 module Mathieu
-using Compat, Compat.LinearAlgebra
-using Compat.LinearAlgebra: BlasReal
-using Base: product, Iterators.filter
+using LinearAlgebra
+using LinearAlgebra: BlasReal
+using Base.Iterators: product, filter
 
 const Order{T<:Integer}  = Union{T,AbstractVector{T}}
 

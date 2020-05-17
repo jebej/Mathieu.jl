@@ -1,7 +1,8 @@
-using Compat, Mathieu
-using Compat.Test, Compat.Printf, Compat.DelimitedFiles
-using Compat.Statistics: mean, median
-VERSION>v"0.7.0-" && import Base.MathConstants.φ
+using Mathieu
+using Test, Printf, DelimitedFiles
+using Statistics: mean, median
+using Base.MathConstants: φ
+
 const refdir = joinpath(@__DIR__,"ref")
 
 ## Test vs Mathematica
