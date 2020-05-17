@@ -12,12 +12,11 @@ julia:
   - 1.0
   - 1.4
   - nightly
-matrix:
-  allow_failures:
-    - julia: nightly
 notifications:
   email: false
 jobs:
+  allow_failures:
+    - julia: nightly
   include:
     - stage: "docs"
       julia: 1.4
