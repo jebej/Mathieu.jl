@@ -3,7 +3,7 @@ using LinearAlgebra
 using LinearAlgebra: BlasReal
 using Base.Iterators: product, filter
 
-const Order{T<:Integer}  = Union{T,AbstractVector{T}}
+const Order = Union{Integer, AbstractVector{T} where T<:Integer}
 
 include("integerorder_mat.jl")
 include("integerorder_evals.jl")
