@@ -5,33 +5,33 @@ using Mathieu, PyPlot
 z = LinRange(0,2π,101)
 q = LinRange(0,10,101)
 
-# ce₀(z,q)
-figure(figsize=(10,8));
-plot_surface(q,z,mapreduce(q-&gt;Mathieu.cep(0,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
-title(&quot;ce₀(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;);
-zlim([0,1.5]); gca(projection=&quot;3d&quot;).view_init(azim=-30)
+## ce₀(z,q)
+f = figure(num=1, figsize=(10,8)); f.clf();
+plot_surface(q,z,mapreduce(q-&gt;Mathieu.ce(0,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
+title(&quot;ce₀(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;); zlim(0,1.5);
+gca(projection=&quot;3d&quot;).view_init(azim=-30); display(f);
 
-# ce₁(z,q)
-figure(figsize=(10,8));
-plot_surface(q,z,mapreduce(q-&gt;Mathieu.cea(0,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
-title(&quot;ce₁(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;);
-zlim([-1.2,1.2]); gca(projection=&quot;3d&quot;).view_init(azim=-30)
+## ce₁(z,q)
+f = figure(num=2, figsize=(10,8)); f.clf();
+plot_surface(q,z,mapreduce(q-&gt;Mathieu.ce(1,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
+title(&quot;ce₁(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;); zlim(-1.2,1.2);
+gca(projection=&quot;3d&quot;).view_init(azim=-30); display(f);
 
-# se₁(z,q)
-figure(figsize=(10,8));
-plot_surface(q,z,mapreduce(q-&gt;Mathieu.sea(0,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
-title(&quot;se₁(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;);
-zlim([-1.5,1.5]); gca(projection=&quot;3d&quot;).view_init(azim=-30)
+## se₁(z,q)
+f = figure(num=3, figsize=(10,8)); f.clf();
+plot_surface(q,z,mapreduce(q-&gt;Mathieu.se(1,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
+title(&quot;se₁(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;); zlim(-1.5,1.5);
+gca(projection=&quot;3d&quot;).view_init(azim=-30); display(f);
 
-# se₂(z,q)
-figure(figsize=(10,8));
-plot_surface(q,z,mapreduce(q-&gt;Mathieu.sep(0,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
-title(&quot;se₂(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;);
-zlim([-1.2,1.2]); gca(projection=&quot;3d&quot;).view_init(azim=-30)
+## se₂(z,q)
+f = figure(num=4, figsize=(10,8)); f.clf();
+plot_surface(q,z,mapreduce(q-&gt;Mathieu.se(2,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
+title(&quot;se₂(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;); zlim(-1.2,1.2);
+gca(projection=&quot;3d&quot;).view_init(azim=-30); display(f);
 
-# ce₂(z,q)
-figure(figsize=(10,8));
-plot_surface(q,z,mapreduce(q-&gt;Mathieu.cep(1,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
-title(&quot;ce₂(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;);
-zlim([-1,1.1]); gca(projection=&quot;3d&quot;).view_init(azim=-30)
-</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="mathieu_funs.html">« Mathieu Function Plots</a><a class="docs-footer-nextpage" href="../api/values.html">Integer Order Characteristic Values »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 17 May 2020 19:34">Sunday 17 May 2020</span>. Using Julia version 1.4.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+## ce₂(z,q)
+f = figure(num=5, figsize=(10,8)); f.clf();
+plot_surface(q,z,mapreduce(q-&gt;Mathieu.ce(2,q,z),hcat,q),cmap=&quot;coolwarm&quot;)
+title(&quot;ce₂(z,q)&quot;); xlabel(&quot;q&quot;); ylabel(&quot;z&quot;); zlim(-1,1.1);
+gca(projection=&quot;3d&quot;).view_init(azim=-30); display(f);
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="mathieu_funs.html">« Mathieu Function Plots</a><a class="docs-footer-nextpage" href="../api/values.html">Integer Order Characteristic Values »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 15 December 2020 20:26">Tuesday 15 December 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
