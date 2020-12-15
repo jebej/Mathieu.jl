@@ -6,13 +6,12 @@ Compute the characteristic value \$a_m(q)\$ corresponding to an even (cosine-ell
 Pass a vector, e.g. `m=0:4`, to compute multiple characteristic values efficiently.
 """
 function a(m::Order,q::Number,N::Integer=matsize2(m,q))
-    oddind = findall(isodd,m)
-    isempty(oddind)  && return ap(div.(m,2),q,N)
-    evenind = findall(iseven,m)
-    isempty(evenind) && return aa(div.(m,2),q,N)
+    ie = map(iseven,m)
+    all(ie)  && return ap(div.(m,2),q,N) # all even
+    !any(ie) && return aa(div.(m,2),q,N) # all odd
     a = zeros(length(m))
-    a[evenind] = ap(div.(m[evenind],2),q,N)
-    a[oddind] = aa(div.(m[oddind],2),q,N)
+    a[ie]   = ap(div.(filter(iseven,m),2),q,N)
+    a[.!ie] = aa(div.(filter(isodd, m),2),q,N)
     return a
 end
 
@@ -24,13 +23,12 @@ Compute the characteristic value \$b_m(q)\$ corresponding to an odd (sine-ellipt
 Pass a vector, e.g. `m=1:5`, to compute multiple characteristic values efficiently.
 """
 function b(m::Order,q::Number,N::Integer=matsize2(m,q))
-    oddind = findall(isodd,m)
-    isempty(oddind)  && return bp(div.(m.-2,2),q,N) # even only
-    evenind = findall(iseven,m)
-    isempty(evenind) && return ba(div.(m.-1,2),q,N) # odd only
+    ie = map(iseven,m)
+    all(ie)  && return bp(div.(m.-2,2),q,N) # all even
+    !any(ie) && return ba(div.(m.-1,2),q,N) # all odd
     b = zeros(length(m))
-    b[evenind] = bp(div.(m[evenind].-2,2),q,N)
-    b[oddind] = ba(div.(m[oddind].-1,2),q,N)
+    b[ie]   = bp(div.(filter(iseven,m).-2,2),q,N)
+    b[.!ie] = ba(div.(filter(isodd, m).-1,2),q,N)
     return b
 end
 
@@ -106,13 +104,12 @@ Compute the characteristic value \$a_{m}(q)\$ for even `m`, or \$b_{m+1}(q)\$ fo
 Pass a vector, e.g. `m=0:4`, to compute multiple characteristic values efficiently.
 """
 function char_per(m::Order,q::Number,N::Integer=matsize2(m,q))
-    oddind = findall(isodd,m)
-    isempty(oddind)  && return ap(div.(m,2),q,N)
-    evenind = findall(iseven,m)
-    isempty(evenind) && return bp(div.(m,2),q,N)
+    ie = map(iseven,m)
+    all(ie)  && return ap(div.(m,2),q,N)
+    !any(ie) && return bp(div.(m,2),q,N)
     a = zeros(length(m))
-    a[evenind] = ap(div.(m[evenind],2),q,N)
-    a[oddind]  = bp(div.(m[oddind],2),q,N)
+    a[ie]   = ap(div.(filter(iseven,m),2),q,N)
+    a[.!ie] = bp(div.(filter(isodd, m),2),q,N)
     return a
 end
 
@@ -133,12 +130,11 @@ Compute the characteristic value \$a_{m+1}(q)\$ for even `m`, or \$b_{m}(q)\$ fo
 Pass a vector, e.g. `m=0:4`, to compute multiple characteristic values efficiently.
 """
 function char_aper(m::Order,q::Number,N::Integer=matsize2(m,q))
-    oddind = findall(isodd,m)
-    isempty(oddind)  && return aa(div.(m,2),q,N)
-    evenind = findall(iseven,m)
-    isempty(evenind) && return ba(div.(m,2),q,N)
+    ie = map(iseven,m)
+    all(ie)  && return aa(div.(m,2),q,N)
+    !any(ie) && return ba(div.(m,2),q,N)
     a = zeros(length(m))
-    a[evenind] = aa(div.(m[evenind],2),q,N)
-    a[oddind]  = ba(div.(m[oddind],2),q,N)
+    a[ie]   = aa(div.(filter(iseven,m),2),q,N)
+    a[.!ie] = ba(div.(filter(isodd, m),2),q,N)
     return a
 end

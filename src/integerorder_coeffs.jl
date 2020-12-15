@@ -46,14 +46,13 @@ function q0_coeffs2(n::Order,q::Number,N::Integer)
 end
 
 function per_coeffs(m::Order,q::Number,N::Integer)
-    oddind = findall(isodd,m)
-    isempty(oddind)  && return cep_coeffs(div.(m,2),q,N)
-    evenind = findall(iseven,m)
-    isempty(evenind) && return sep_coeffs(div.(m,2),q,N)
-    P1 = cep_coeffs(div.(m[evenind],2),q,N)
-    P2 = sep_coeffs(div.(m[oddind],2),q,N)
-    P = Matrix{eltype(P1)}(undef,N,length(m))
-    P[:,evenind] = P1
-    P[:,oddind] = P2
+    ie = map(iseven,m)
+    all(ie)  && return cep_coeffs(div.(m,2),q,N)
+    !any(ie) && return sep_coeffs(div.(m,2),q,N)
+    P1 = cep_coeffs(div.(filter(iseven,m),2),q,N)
+    P2 = sep_coeffs(div.(filter(isodd, m),2),q,N)
+    P = similar(P1,N,length(m))
+    P[:,ie] = P1
+    P[:,.!ie] = P2
     return P
 end
