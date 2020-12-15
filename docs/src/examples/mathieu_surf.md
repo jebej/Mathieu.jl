@@ -1,6 +1,6 @@
 ```@setup mathieu_plots
 using Mathieu, PyPlot
-!isdir("img") && mkdir("img")
+isdir("img") || mkdir("img")
 include(joinpath(@__DIR__,"..","..","..","examples","surfaceplots.jl"))
 savefig(joinpath("img","surf_5.svg"),transparent=true); close()
 savefig(joinpath("img","surf_4.svg"),transparent=true); close()
